@@ -10,7 +10,7 @@ const routes = require('./routes/routes');
 
 // middleware applications
 const app = express();
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(
     bodyParser.urlencoded({
         extended: true,
