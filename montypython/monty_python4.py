@@ -13,9 +13,7 @@ while round < 3 and answer != 'Brian':
     # increase round each time through loop
     round += 1
     # prompt user for answer
-    answer = input('Finish the movie title, "Monty Python\'s The Life of ______": ')
-    if answer is not None:
-        answer = answer.capitalize()
+    answer = input('Finish the movie title, "Monty Python\'s The Life of ______": ').strip().capitalize()
     # check answer
     if answer == 'Brian':
         print('Correct!')
