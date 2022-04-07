@@ -48,7 +48,7 @@ def come_out_roll_results():
         print('You win!')
         main(True, False)
     elif result == 2 or result == 3 or result == 12:
-        print('Sorry! You lose!')
+        print('Craps! You lose!')
         main(False, False)
     else:
         return result
@@ -61,10 +61,11 @@ def get_result(come_out_roll):
     if point != 0:
         point_roll(point)
     else:
-        main(False, False, 0)
+        main(False, False)
 
 
 def main(keep_playing, come_out_roll):
+    title()
     if keep_playing and come_out_roll:
         print('Welcome to the table.')
         get_result(come_out_roll)
@@ -73,8 +74,18 @@ def main(keep_playing, come_out_roll):
         get_result(True)
     else:
         print('GAME OVER')
+        return
+
+
+def title():    
+    print(' ______     ______     ______     ______   ______')
+    print('/\  ___\   /\  == \   /\  __ \   /\  == \ /\  ___\\')
+    print('\ \ \____  \ \  __<   \ \  _  \  \ \  _-/ \ \___  \\')
+    print(' \ \_____\  \ \_\ \_\  \ \_\ \_\  \ \_\    \/\_____\\')
+    print('  \/_____/   \/_/ /_/   \/_/\/_/   \/_/     \/_____/\n\n')
 
 
 if __name__ == '__main__':
     main(True, True)
+
 
