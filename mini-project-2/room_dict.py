@@ -1,6 +1,6 @@
 rooms = {
     'entry': {
-        'description': 'To be added...',
+        'description': 'The entry is not a room, but more of a hallway. In front of you you see the great staircase.\nTo the left the entrance to the library. And to your right the entrance to the great hall.',
         'north': 'great hall',
         'south': 'library',
         'west': 'great staircase',
@@ -12,7 +12,7 @@ rooms = {
         },
     },
     'great hall': {
-        'description': 'To be added...',
+        'description': 'The great hall is the center of the castle and the main entertaining area.\nAs you enter you see the entrances on the far wall to the the buttery, pantry and kitchens. On the left you see a door leading to the garden.',
         'northeast': 'kitchen',
         'north': 'pantry',
         'northwest': 'buttery',
@@ -40,7 +40,7 @@ rooms = {
         },
     },
     'pantry': {
-        'description': 'To be added...',
+        'description': 'The pantry is a room where food, provisions or dishes are stored and served in an ancillary capacity to the kitchen.\nThere were separate rooms for the various service functions and food storage. A pantry was where bread was kept and food preparation associated with it done.\nThe head of the office responsible for this room was referred to as a pantler.',
         'east': 'kitchen',
         'south': 'great hall',
         'west': 'buttery',
@@ -53,7 +53,7 @@ rooms = {
         'item': 'potion',
     },
     'buttery': {
-        'description': 'To be added...',
+        'description': 'The buttery was a domestic room in a castle or large medieval house. It was one of the offices pertaining to the kitchen.\nIt was generally a room close to the Great Hall and was traditionally the place from which the yeoman of the buttery served beer and candles to those lower members of the household not entitled to drink wine.',
         'south': 'great hall',
         'west': 'kitchen',
         'look': {
@@ -65,7 +65,7 @@ rooms = {
         'character': 'butler',
     },
     'larder': {
-        'description': 'To be added...',
+        'description': 'The larder is a cool area for storing food prior to use. Larders were commonplace in houses before the widespread use of the refrigerator.\nEssential qualities of a larder are that it should be:as cool as possible, close to food preparation areas, constructed so as to exclude flies and vermin, easy to keep clean, and equipped with shelves and cupboards appropriate to the food being stored.',
         'south': 'kitchen',
         'look': {
             'north': 'To be added...',
@@ -75,7 +75,7 @@ rooms = {
         },
     },
     'servant\'s quarters': {
-        'description': 'To be added...',
+        'description': 'This area of the house is reserved for the servants to sleep.',
         'west': 'kitchen',
         'look': {
             'north': 'To be added...',
@@ -106,6 +106,7 @@ rooms = {
             'west': 'To be added...',
         },
         'item': 'dagger',
+        'needs': 'key',
     },
     'great staircase': {
         'description': 'To be added...',
@@ -113,7 +114,7 @@ rooms = {
         'down': 'entry',
     },
     'solar': {
-        'description': 'To be added...',
+        'description': 'The room in the castle called the Solar was intended for sleeping and private quarters and used by the Lord\'s family.\nIt became a private sitting room favoured by the family. The solar suite of rooms was extended to include a wardrobe.',
         'west': 'great staircase',
         'look': {
             'north': 'To be added...',

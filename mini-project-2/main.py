@@ -25,6 +25,7 @@ def show_status():
     # print the player's current status
     print('---------------------------')
     print('You are in the ' + current_room + '.')
+    print(f"{rooms[current_room]['description']}\n")
     print('Your current health is ' + str(characters['hero'].get('health')) + ' of 100.')
     if characters['hero'].get('use') is None:
         print('You are not using any item.')
@@ -87,3 +88,6 @@ while True:
 
     if move[0] == 'attack':
         commands.attack(current_room, move[1])
+
+    if move[0] == 'quit' or move[0] == 'exit':
+        quit(0);

@@ -24,7 +24,7 @@ characters = {
         'answer': 'The only way I will not eat a princess is if you kill me. You would not do that would you?'
     },
     'butler': {
-        'name': 'jeeves',
+        'name': 'Jeeves',
         'strength': 0,
         'health': 100,
         'use': None,
