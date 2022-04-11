@@ -52,6 +52,9 @@ def use(named_item):
 
 
 def drop(current_room, named_item):
+    if named_item in characters['hero']['inventory']:
+        print('You cannot drop an item from your inventory.\nYou must use item first!')
+        return
     if named_item in characters['hero']['use']:
         rooms[current_room]['item'] = named_item
         characters['hero']['use'] = None
