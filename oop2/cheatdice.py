@@ -26,3 +26,10 @@ class Cheat_Loaded_Dice(Player):
               self.dice[i] += 1
           i += 1
 
+class Cheat_Tops_And_Bottoms(Player):
+    def cheat(self):
+        self.dice = []
+        for i in range(3):
+            self.dice.append(randint(4,6))
+        
+
