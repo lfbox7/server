@@ -1,17 +1,14 @@
 #!/usr/bin/python3
 import string
-from googletrans import Translator
+from collections import Counter
+# from googletrans import Translator
 import pandas as pd
-import numpy as np
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-from nltk import WordNetLemmatizer, LancasterStemmer, pos_tag, sent_tokenize, word_tokenize
+from nltk import WordNetLemmatizer, LancasterStemmer, pos_tag, sent_tokenize, word_tokenize, ngrams
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 """
-pip install google-cloud-translate
-
 there will be several additional nltk downloads needing to be downloaded:
 
 import nltk
@@ -19,30 +16,62 @@ nltk.download('stopwords')
 """
 
 
-def plot_bigrams(total, bigrams):
+def get_ngrams(documents, size):
+    """
+    function to build out a new data frame composed of the top 5 ngrams and their count
+    :param documents:
+    :param size:
+    :return: pandas data frame
+    """
+    ngrams_all = []
+    # loop through the cleaned tweets
+    for document in documents:
+        tokens = document.split()
+        if len(tokens) <= size:
+            continue
+        else:
+            output = list(ngrams(tokens, size))
+        for ngram in output:
+            ngrams_all.append(" ".join(ngram))
+    # create a collections counter for counting ngram instances
+    cnt_ngram = Counter()
+    for word in ngrams_all:
+        cnt_ngram[word] += 1
+    # create new data frame
+    data_frame = pd.DataFrame.from_dict(cnt_ngram, orient='index').reset_index()
+    # create two columns in data frame with data (cnt_ngram and ngrams_all
+    data_frame = data_frame.rename(columns={'index': 'words', 0: 'count'})
+    # sort them by decending count
+    data_frame = data_frame.sort_values(by='count', ascending=False)
+    # delete all but the top 5 ngrams from the data frame
+    data_frame = data_frame.head(5)
+    return data_frame
+
+
+def plot_bigrams(document):
+    """
+    function to plat the ngrams build by get_ngrams()
+    :param document:
+    :return: None
+    """
+    # build bigrams from get_ngrams and document
+    bigrams = get_ngrams(document, 2)
     print(bigrams)
+    # create the matplotlib frame
     fig = plt.figure()
     plt.subplots_adjust(wspace=.5)
     ax = fig.add_subplot()
-    ax.barh(np.arange(total), total, align='center', alpha=.5)
+    # pass the data to the matplotlib frame
+    ax.bar(bigrams['words'], bigrams['count'], align='center', alpha=.5)
+    # format matplotlib frame
     ax.set_title('Bigrams in Dataset')
-    plt.yticks(np.arange(total), bigrams.iloc[19:28])
-    plt.xlabel('Count')
+    plt.xlabel('Bigrams')
+    plt.ylabel('Count')
+    plt.rc('xtick', labelsize=6)
+    plt.rc('ytick', labelsize=8)
+    # save matplotlib frame to .png
     plt.savefig('bigrams.png')
-    plt.plot()
-
-
-def get_bigrams(train_data):
-    bigram_vectorizer = CountVectorizer(analyzer='word', ngram_range=[2, 2])
-    x = bigram_vectorizer.fit_transform(train_data.cleaned_tweets)
-    bigram_total = bigram_vectorizer.get_feature_names_out()[:10]
-    print(bigram_total)
-    transformer = TfidfTransformer()
-    mat = transformer.fit_transform(x)
-    bigrams = pd.DataFrame(mat.todense(), index=train_data.index, columns=bigram_vectorizer.get_feature_names_out()[:10])
-    train_data = pd.concat([train_data, bigrams], ignore_index=False, sort=False, axis=1, join="inner")
-    plot_bigrams(len(bigram_total), train_data)
-    return len(bigram_total), train_data
+    # plt.show()
 
 
 def get_word_cloud(text, type):
@@ -52,11 +81,14 @@ def get_word_cloud(text, type):
     :param type:
     :return: None
     """
+    # pass the data to the matplotlib frame
     word_cloud = WordCloud(width=1024, height=1024, margin=0).generate(text)
+    # format matplotlib frame
     fig, ax = plt.subplots(1, 1, figsize=(10, 10))
     ax.imshow(word_cloud, interpolation='bilinear')
     ax.axis("off")
     ax.margins(x=0, y=0)
+    # save matplotlib frame to .png
     plt.savefig(f'wordcloud_{type}.png')
     # plt.show()
 
@@ -64,39 +96,41 @@ def get_word_cloud(text, type):
 def get_stop_words(tokens):
     """
     function to clean the tweets of stop words
+
+    *** Remove googletrans because of slow api calls and daily api requests ***
+
     :param tokens:
     :return: stringg
     """
-    translator = Translator()
-
+    # translator = Translator()
     new_words = []
-    test_lang = ' '.join(tokens)
-    print(test_lang)
+    # test_lang = ' '.join(tokens)
     # api call slows program, but this is the only effective means to remove non-english text
-    dec_lan = translator.detect(test_lang)
-    if dec_lan.lang == 'en':
-        for word in tokens:
-            # make word lowercase to run against nltk stop words list properly
-            word = word.lower()
-            # attempt to drop links
-            if word.startswith('https //') or word.startswith('http //'):
-                # do nothing
-                continue
-            elif word is None:
-                continue
-            else:
+    # dec_lan = translator.detect(test_lang)
+    # if dec_lan.lang == 'en':
+    for word in tokens:
+        # make word lowercase to run against nltk stop words list properly
+        word = word.lower()
+        # attempt to drop links
+        if word.startswith('//t.co/'):
+            # do nothing
+            continue
+        else:
+            if word is not None:
                 # strip punctuation from word
-                word = word.strip('.,?:;#!@^%$&*<>-_+=\'\"[]{}0123456789')
+                word = word.strip('.,?:;#!@^%$&*<>-_+=`\'\"[]{}[0-9]')
                 # check if word is in nltk.corpus stopwords
                 if word not in stopwords.words('english'):
                     # check if word in supplemental list
-                    if word not in ['RT', 'http', 'rt', 'timestamp', '.', '[video]', 'https', 't', 'co', 'amp']:
+                    if word not in ['RT', 'http', 'rt', 'timestamp', '.', '[video]', 'https', 'amp']:
                         # add 'cleaned' word to list
                         new_words.append(word)
-        # create string from list
-        results = ' '.join(new_words)
-        # return back to create_meta()
-        return results
+            else:
+                continue
+    # create string from list
+    results = ' '.join(new_words)
+    # return back to create_meta()
+    return results
 
 
 def get_lemma(tokens):
@@ -105,8 +139,10 @@ def get_lemma(tokens):
     :param tokens:
     :return: get_stop_words(lemmatized_tokens)
     """
+    # call class
     lemma = WordNetLemmatizer()
     lemmatized_tokens = []
+    # iterate through tokens and lemmatize token and add to list
     for token in tokens:
         temp_tokens = lemma.lemmatize(token)
         lemmatized_tokens.append(temp_tokens)
@@ -119,8 +155,10 @@ def get_stems(tokens):
     :param tokens:
     :return: get_lemma(stemmed_tokens)
     """
+    # call class
     stemmer = LancasterStemmer()
     stemmed_tokens = []
+    # iterate through tokens and lemmatize token and add to list
     for token in tokens:
         for word in token:
             if word[1] == 'DT' or word[1] == 'PRP' or word[1] == 'PRP$' or word[1] == 'NN' or word[1] == 'NNP' or word[1] == 'NNPS':
@@ -147,10 +185,13 @@ def get_tokens(document):
     :param document:
     :return: get_pos_tag(no_punctuation_seq_tokens)
     """
+    document = str(document)
     if document is not None:
+        # create tokens using NLTK
         sequences = sent_tokenize(document)
         seq_tokens = [word_tokenize(sequence) for sequence in sequences]
         no_punctuation_seq_tokens = []
+        # iterate throuh tokens to remove punctuation
         for seq_token in seq_tokens:
             no_punctuation_seq_tokens.append([token for token in seq_token if token not in string.punctuation])
         return get_pos_tag(no_punctuation_seq_tokens)
@@ -188,13 +229,15 @@ def create_meta(data_frame):
         lambda x: get_tokens(x))
     data_frame = append_col(data_frame)
     get_word_cloud(' '.join(data_frame.cleaned_tweets), 'cleaned_tweets')
-    get_bigrams(data_frame)
+    plot_bigrams(data_frame.cleaned_tweets)
 
 
 if __name__ == '__main__':
+    """
+    open and read .csv and create panda data frame
+    """
     DATA = 'data.csv'
     df = pd.read_csv(DATA)
     df = df.drop_duplicates(keep='first')
     df.reset_index(inplace=True)
     create_meta(df)
-
