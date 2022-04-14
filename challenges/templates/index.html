@@ -14,32 +14,13 @@
     <div class="container">
         <h1 class="text-center">Trivia Game</h1>
     </div>
-    <form action="/answer" method="POST" class="container">
+    <form action="/login" method="POST" class="container">
         <div class="mb-3 form-check">
-            <h4>How many moons does Saturn have?</h4>
+            <h4>Enter your name</h4>
         </div>
-        <div class="mb-3 form-check">
-            <input class="form-check-input" name="answer" value="a" type="radio" id="answer_a">
-            <label class="form-check-label" for="answer_a">
-                49
-            </label>
-        </div>
-        <div class="mb-3 form-check">
-            <input class="form-check-input" name="answer" value="b" type="radio" id="answer_b1">
-            <label class="form-check-label" for="answer_b">
-                27
-            </label>
-        </div>        <div class="mb-3 form-check">
-            <input class="form-check-input" name="answer" value="c" type="radio" id="answer_c">
-            <label class="form-check-label" for="answer_c">
-                96
-            </label>
-        </div>
-        <div class="mb-3 form-check">
-            <input class="form-check-input" name="answer" value="d" type="radio" id="answer_d">
-            <label class="form-check-label" for="answer_d">
-                82
-            </label>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="name" id="floatingInput" placeholder="Name">
+            <label for="floatingInput">Name</label>
         </div>
         <div class="mb-3 form-check">
             <button type="submit" class="btn btn-primary mb-3">Submit</button>
