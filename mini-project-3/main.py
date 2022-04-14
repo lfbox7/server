@@ -9,6 +9,10 @@ from nltk import WordNetLemmatizer, LancasterStemmer, pos_tag, sent_tokenize, wo
 from nltk.corpus import stopwords
 
 """
+Data source: [Kaggle - Verfied NFT Tweets](https://www.kaggle.com/datasets/adanai/verified-nft-tweets?select=verified_nft_tweets.csv)
+
+Project overview: Preprocessing of verified NFT Tweets for machine learning (ML) training data
+
 there will be several additional nltk downloads needing to be downloaded:
 
 import nltk
