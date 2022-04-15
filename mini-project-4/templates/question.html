@@ -11,14 +11,17 @@
 </head>
 
 <body style="background-image: url('https://2v9xey2o80cl1dh164410pjg-wpengine.netdna-ssl.com/wp-content/uploads/2019/01/trivia-background-610x343.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover; height: 100vh;">
+    
+    <!-- link to view high scores -->
     <a href="/high_scores" style="position:absolute; top:0; right:0;">High Scores</a>
 
+    <!-- container for title -->
     <div class="container my-5">
         <h1 class="text-center p-3" style="border-style: solid; background-color: #ffffff;">Music Trivia Game</h1>
     </div>
 
 
-    <!-- need header with name and scores -->
+    <!-- container for name and scores -->
     <div class="container my-5">
         <div class="row">
             <div class="col-4" style="border-style: solid; background-color: #ffffff;">
@@ -36,13 +39,18 @@
         </div>
     </div>
     
+    <!-- container for question and answer form -->
     <form action="/answer/{{name}}" method="POST" class="container my-5 p-3" style="border-style: solid; background-color: #ffffff;">
     
+    <!-- check if question variable from route is not empty -->
     {% if question != '' %}
 
+        <!-- show question -->
         <div class="mb-3 form-check">
             <h4>{{question}}</h4>
         </div>
+
+        <!-- loop through answers -->
         {% for answer in answers %}
         <div class="mb-3 px-5 form-check">
             <input class="form-check-input" name="answer" value={{answer}} type="radio" id="radio_button>
@@ -56,11 +64,12 @@
         </div>
 
     {% else %}
-
+        <!-- if question variable from route is empty -->
+        <!-- print game over -->
         <div class="mb-3 px-5 form-check">
             <h2 class="text-center text-danger">GAME OVER</h2>
         </div>
-
+        <!-- show link to logout route to load database -->
         <div class="mb-3 form-check">
             <a href="/logout" class="text-center">Restart Game</a>
         </div>

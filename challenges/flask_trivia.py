@@ -14,6 +14,10 @@ correct_answer = ''
 @app.route("/")
 @app.route("/start")
 def start():
+    """
+    log in page for music trivia site
+    only calls html template
+    """
     return render_template("index.html")
 
 @app.route("/login", methods = ["POST"])
@@ -46,4 +50,3 @@ def answer(name, correct, incorrect, correct_answer):
 
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=2224)
-

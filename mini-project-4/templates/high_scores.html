@@ -11,14 +11,16 @@
 </head>
 
 <body style="background-image: url('https://2v9xey2o80cl1dh164410pjg-wpengine.netdna-ssl.com/wp-content/uploads/2019/01/trivia-background-610x343.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover; height: 100vh;">
+    <!-- link to return to homepage -->
     <a href="/" style="position:absolute; top:0; right:0;">Start Game</a>
     
+    <!-- title container -->
     <div class="container my-5">
         <h1 class="text-center p-3" style="border-style: solid; background-color: #ffffff;">Music Trivia Game</h1>
     </div>
 
 
-    <!-- need header with name and scores -->
+    <!-- container for user name and scores -->
     <div class="container my-5 p-3" style="border-style: solid; background-color: #ffffff;">
         <div class="row my-3">
             <h2 class="text-center text-danger">HIGH SCORES</h2>
@@ -29,6 +31,7 @@
             <div class="col-3 text-center"><strong>Correct</strong></div>
             <div class="col-3 text-center"><strong>Incorrect</strong></div>
         </div>
+        <!-- loop throuh rows variable passed through route -->
         {% for row in rows %}
         <div class="row mb-3">
             <div class="offset-1"></div>

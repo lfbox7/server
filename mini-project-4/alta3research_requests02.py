@@ -6,11 +6,10 @@ from alta3research_music03 import music
 
 app= Flask(__name__)
 
-
+# route to access JSON from music dictionary
 @app.route("/")
 def index():
-    # jsonify returns legal JSON
-
+    # return music dictionary as JSON
     return jsonify(music)
 
 
