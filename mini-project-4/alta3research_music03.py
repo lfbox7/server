@@ -1,3 +1,8 @@
+"""
+Dictionary extracted from https://the-trivia-api.com/
+
+"""
+
 music = [
     {
         "category": "Music",
